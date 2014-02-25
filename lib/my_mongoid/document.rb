@@ -9,7 +9,6 @@ module MyMongoid
     include MyMongoid::Attributes
     include MyMongoid::Fields
 
-
     module ClassMethods
       def is_mongoid_model?
         true
