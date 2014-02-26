@@ -11,7 +11,7 @@ module MyMongoid
     end
 
     def register_model(model)
-      models << model unless models.includes?(model)
+      models << model unless models.include?(model)
     end
   end
 end
