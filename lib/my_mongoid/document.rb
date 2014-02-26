@@ -20,8 +20,8 @@ module MyMongoid
     end
 
     def initialize(attrs)
-      raise ArgumentError unless attrs.is_a?(Hash)
-      self.attributes = attrs
+      return unless attrs
+      process_attributes attrs
     end
 
     def new_record?
