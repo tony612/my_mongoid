@@ -13,6 +13,28 @@ module MyMongoid
         add_field(name, opts)
       end
 
+      def fields
+        @fields ||= {"_id" => SecureRandom.hex}
+      end
+
+      def alias_methods
+        @alias_methods ||= {}
+      end
+
+      def default_attributes
+        @default_attributes ||= {}
+      end
+
+      def field_types
+        @field_types ||= {}
+      end
+
+      def check_field_type(value, type)
+        raise MyMongoid::AttributeTypeError if type && !value.is_a?(type)
+      end
+
+      protected
+
       def add_field(name, opts)
         name = name.to_s
         check_field_name(name)
@@ -35,25 +57,9 @@ module MyMongoid
       def create_setter(name)
         define_method("#{name}=".to_sym) do |value|
           matching_type = self.class.field_types[name]
-          raise MyMongoid::AttributeTypeError if matching_type && !value.is_a?(matching_type)
+          self.class.check_field_type(value, matching_type)
           attributes[name] = value
         end
-      end
-
-      def fields
-        @fields ||= {"_id" => SecureRandom.hex}
-      end
-
-      def alias_methods
-        @alias_methods ||= {}
-      end
-
-      def default_attributes
-        @default_attributes ||= {}
-      end
-
-      def field_types
-        @field_types ||= {}
       end
 
       def check_field_name(name)
