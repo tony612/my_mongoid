@@ -8,7 +8,8 @@ gem "actionpack", "~> 4.0"
 
 group :test do
   gem "rspec"
-
   gem "guard-rspec"
+  gem 'simplecov', :require => false
+  gem 'coveralls', :require => false
 end
 
