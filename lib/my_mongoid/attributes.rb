@@ -12,6 +12,7 @@ module MyMongoid
     end
 
     def write_attribute(name, value)
+      name = name.to_s
       attributes[name] = value
     end
 
