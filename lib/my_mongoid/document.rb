@@ -19,9 +19,10 @@ module MyMongoid
       MyMongoid.register_model(self)
     end
 
-    def initialize(attrs)
-      return unless attrs
-      process_attributes attrs
+    def initialize(attrs={})
+      raise ArgumentError unless attrs.is_a?(Hash)
+      process_attributes self.class.default_attributes.merge(attrs)
+      yield self if block_given?
     end
 
     def new_record?
