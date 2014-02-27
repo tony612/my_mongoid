@@ -1,6 +1,7 @@
 # MyMongoid
 
 [![Build Status](https://travis-ci.org/tony612/my_mongoid.png?branch=master)](https://travis-ci.org/tony612/my_mongoid)
+[![Coverage Status](https://coveralls.io/repos/tony612/my_mongoid/badge.png)](https://coveralls.io/r/tony612/my_mongoid)
 
 TODO: Write a gem description
 
