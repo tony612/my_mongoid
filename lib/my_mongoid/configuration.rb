@@ -13,4 +13,8 @@ module MyMongoid
   def self.configure
     yield configuration if block_given?
   end
+
+  def self.config?
+    !!(MyMongoid.configuration.host && MyMongoid.configuration.database)
+  end
 end

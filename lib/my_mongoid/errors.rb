@@ -7,4 +7,7 @@ module MyMongoid
 
   class AttributeTypeError < StandardError
   end
+
+  class UnconfiguredDatabaseError < StandardError
+  end
 end

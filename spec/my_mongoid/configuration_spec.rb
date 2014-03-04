@@ -26,4 +26,29 @@ describe MyMongoid::Configuration do
       end
     end
   end
+
+  describe 'MyMongoid.config?' do
+    before(:each) do
+      MyMongoid.configure do |config|
+        config.host = "localhost:27017"
+        config.database = "my_mongoid"
+      end
+    end
+    it 'returns true when configured' do
+      expect(MyMongoid.config?).to be true
+    end
+    it 'returns false without configuring host' do
+      MyMongoid.configuration.host = nil
+      expect(MyMongoid.config?).to be false
+    end
+    it 'returns false without configuring database' do
+      MyMongoid.configuration.database = nil
+      expect(MyMongoid.config?).to be false
+    end
+    it 'returns false without configuring both' do
+      MyMongoid.configuration.database = nil
+      MyMongoid.configuration.host = nil
+      expect(MyMongoid.config?).to be false
+    end
+  end
 end
