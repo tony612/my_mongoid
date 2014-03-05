@@ -3,7 +3,7 @@ require "active_support/core_ext"
 require "my_mongoid/version"
 require "my_mongoid/document"
 require "my_mongoid/configuration"
-require "my_mongoid/session"
+require "my_mongoid/sessions"
 
 module MyMongoid
   # Your code goes here...
