@@ -13,21 +13,6 @@ module MyMongoid
       def collection
         MyMongoid.session[collection_name]
       end
-
-      def create(args)
-        m = new(args)
-        m.save
-        m
-      end
-    end
-
-    def to_document
-      attributes
-    end
-
-    def save
-      @is_new_record = false
-      self.class.collection.insert(to_document)
     end
   end
 

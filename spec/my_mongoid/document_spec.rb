@@ -47,4 +47,12 @@ describe MyMongoid::Document do
     end
 
   end
+
+  describe '#to_document' do
+    it 'should be a bson document' do
+      doc = {created_at: "bar"}
+      event = Event.new(doc)
+      expect(event.to_document).to eql({"created_at" => "bar"})
+    end
+  end
 end

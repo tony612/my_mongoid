@@ -2,6 +2,7 @@ require 'my_mongoid/fields'
 require 'my_mongoid/errors'
 require 'my_mongoid/attributes'
 require 'my_mongoid/sessions'
+require 'my_mongoid/creatable'
 
 module MyMongoid
   module Document
@@ -10,6 +11,7 @@ module MyMongoid
     include MyMongoid::Attributes
     include MyMongoid::Fields
     include MyMongoid::Sessions
+    include MyMongoid::Creatable
 
     attr_accessor :is_new_record
 
@@ -32,6 +34,10 @@ module MyMongoid
 
     def new_record?
       @is_new_record
+    end
+
+    def to_document
+      attributes
     end
   end
 end

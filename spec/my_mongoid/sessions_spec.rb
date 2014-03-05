@@ -7,6 +7,12 @@ describe MyMongoid::Sessions do
         config.database = "my_mongoid"
       end
     end
+    after(:each) do
+      MyMongoid.configure do |config|
+        config.host = nil
+        config.database = nil
+      end
+    end
     it 'returns a Moped::Session' do
       expect(MyMongoid.session).to be_a(Moped::Session)
     end
@@ -14,8 +20,6 @@ describe MyMongoid::Sessions do
       expect(MyMongoid.session).to eql(MyMongoid.session)
     end
     it 'receives the config rightly' do
-      MyMongoid.session.disconnect
-      expect(MyMongoid.session.send(:current_database_name)).to eql(:none)
       MyMongoid.session.collection_names
       expect(MyMongoid.session.send(:current_database_name)).to eql("my_mongoid")
     end
@@ -32,7 +36,7 @@ describe MyMongoid::Sessions do
     end
   end
 
-  describe 'MyMongoid::Document' do
+  describe 'collection' do
     class Event
       include MyMongoid::Document
 
@@ -56,42 +60,6 @@ describe MyMongoid::Sessions do
       it "returns a model's collection" do
         expect(Event.collection).to be_a(Moped::Collection)
         expect(Event.collection.name).to eql("events")
-      end
-    end
-
-    describe '#to_document' do
-      it 'should be a bson document' do
-        doc = {created_at: "bar"}
-        event = Event.new(doc)
-        expect(event.to_document).to eql({"created_at" => "bar"})
-      end
-    end
-
-    describe '#save' do
-      context 'successful insert' do
-        it 'inserts a new record into the db' do
-          col = Event.collection
-          event = Event.new({created_at: 'bar'})
-          expect(Event).to receive(:collection).and_return(col)
-          expect(col).to receive(:insert).with({"created_at" => 'bar'})
-          event.save
-        end
-        it 'returns true' do
-          event = Event.new({created_at: 'bar'})
-          expect(event.save).to include({"n"=>0, "err"=>nil, "ok"=>1.0})
-        end
-        it 'makes Model#new_record return false' do
-          event = Event.new({created_at: 'bar'})
-          expect(event.new_record?).to be true
-          event.save
-          expect(event.new_record?).to be false
-        end
-      end
-    end
-    describe '.create' do
-      it 'returns a saved record' do
-        event = Event.create({created_at: 'bar'})
-        expect(event).not_to be_new_record
       end
     end
   end
