@@ -14,7 +14,7 @@ module MyMongoid
       end
 
       def fields
-        @fields ||= {"_id" => SecureRandom.hex}
+        @fields ||= {"_id" => MyMongoid::Field.new("_id", {})}
       end
 
       def alias_methods
@@ -22,7 +22,7 @@ module MyMongoid
       end
 
       def default_attributes
-        @default_attributes ||= {}
+        @default_attributes ||= {"_id" => SecureRandom.hex}
       end
 
       def field_types

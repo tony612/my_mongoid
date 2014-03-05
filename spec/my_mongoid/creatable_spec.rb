@@ -9,9 +9,9 @@ describe MyMongoid::Creatable do
     context 'successful insert' do
       it 'inserts a new record into the db' do
         col = Event.collection
-        event = Event.new({created_at: 'bar'})
+        event = Event.new({created_at: 'bar', _id: "abc"})
         expect(Event).to receive(:collection).and_return(col)
-        expect(col).to receive(:insert).with({"created_at" => 'bar'})
+        expect(col).to receive(:insert).with({"created_at" => 'bar', "id" => "abc"})
         event.save
       end
       it 'returns true' do

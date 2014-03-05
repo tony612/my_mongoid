@@ -3,6 +3,7 @@ require 'my_mongoid/errors'
 require 'my_mongoid/attributes'
 require 'my_mongoid/sessions'
 require 'my_mongoid/creatable'
+require 'my_mongoid/findable'
 
 module MyMongoid
   module Document
@@ -12,12 +13,20 @@ module MyMongoid
     include MyMongoid::Fields
     include MyMongoid::Sessions
     include MyMongoid::Creatable
+    include MyMongoid::Findable
 
     attr_accessor :is_new_record
 
     module ClassMethods
       def is_mongoid_model?
         true
+      end
+
+      def instantiate(attrs={})
+        obj = allocate
+        obj.attributes = attrs
+        obj.is_new_record = false
+        obj
       end
     end
 

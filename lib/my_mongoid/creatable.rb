@@ -6,7 +6,7 @@ module MyMongoid
     extend ActiveSupport::Concern
 
     module ClassMethods
-      def create(args)
+      def create(args={})
         m = new(args)
         m.save
         m
