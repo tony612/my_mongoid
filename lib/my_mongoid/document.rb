@@ -4,6 +4,7 @@ require 'my_mongoid/attributes'
 require 'my_mongoid/sessions'
 require 'my_mongoid/creatable'
 require 'my_mongoid/findable'
+require 'my_mongoid/changable'
 
 module MyMongoid
   module Document
@@ -14,6 +15,7 @@ module MyMongoid
     include MyMongoid::Sessions
     include MyMongoid::Creatable
     include MyMongoid::Findable
+    include MyMongoid::Changable
 
     attr_accessor :is_new_record
 
@@ -26,6 +28,7 @@ module MyMongoid
         obj = allocate
         obj.attributes = attrs
         obj.is_new_record = false
+        obj.clear_changed
         obj
       end
     end
@@ -38,6 +41,7 @@ module MyMongoid
       raise ArgumentError unless attrs.is_a?(Hash)
       process_attributes attrs_with_defaults({"_id" => SecureRandom.hex(10)}.merge(attrs))
       yield self if block_given?
+      clear_changed
       @is_new_record = true
     end
 

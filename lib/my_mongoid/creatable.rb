@@ -16,6 +16,7 @@ module MyMongoid
     def save
       @is_new_record = false
       self.class.collection.insert(to_document)
+      clear_changed
     end
   end
 end

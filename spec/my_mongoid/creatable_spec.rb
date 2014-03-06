@@ -36,6 +36,14 @@ describe MyMongoid::Creatable do
         event.save
         expect(event.new_record?).to be false
       end
+      it 'have no changes right after persisting' do
+        event = Event.new({created_at: 'bar'})
+        expect(event.changed?).to be false
+        event.created_at = "foo"
+        expect(event.changed?).to be true
+        event.save
+        expect(event.changed?).to be false
+      end
     end
   end
   describe '.create' do
