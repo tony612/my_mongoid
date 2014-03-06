@@ -1,12 +1,6 @@
 require 'spec_helper'
 
 describe MyMongoid::Creatable do
-  before(:each) do
-    MyMongoid.configure do |config|
-      config.host = "localhost:27017"
-      config.database = "my_mongoid"
-    end
-  end
   before(:all) do
     class Event
       include MyMongoid::Document
@@ -17,6 +11,7 @@ describe MyMongoid::Creatable do
   after(:all) do
     Object.send(:remove_const, :Event)
   end
+  prepare_database
   describe '#save' do
     context 'successful insert' do
       it 'inserts a new record into the db' do

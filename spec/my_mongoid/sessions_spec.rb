@@ -1,18 +1,7 @@
 require 'spec_helper'
 describe MyMongoid::Sessions do
+  prepare_database
   describe 'MyMongoid.session' do
-    before(:each) do
-      MyMongoid.configure do |config|
-        config.host = "localhost:27017"
-        config.database = "my_mongoid"
-      end
-    end
-    after(:each) do
-      MyMongoid.configure do |config|
-        config.host = nil
-        config.database = nil
-      end
-    end
     it 'returns a Moped::Session' do
       expect(MyMongoid.session).to be_a(Moped::Session)
     end
@@ -46,13 +35,6 @@ describe MyMongoid::Sessions do
     end
     after(:all) do
       Object.send(:remove_const, :Event)
-    end
-
-    before(:each) do
-      MyMongoid.configure do |config|
-        config.host = "localhost:27017"
-        config.database = "my_mongoid"
-      end
     end
 
     describe '.collection_name' do

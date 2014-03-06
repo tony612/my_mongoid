@@ -28,3 +28,18 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+def prepare_database
+  before(:all) do
+    MyMongoid.configure do |config|
+      config.host = "localhost:27017"
+      config.database = "my_mongoid"
+    end
+  end
+  after(:all) do
+    MyMongoid.configure do |config|
+      config.host = nil
+      config.database = nil
+    end
+  end
+end

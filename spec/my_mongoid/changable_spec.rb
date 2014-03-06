@@ -1,18 +1,7 @@
 require 'spec_helper'
 
 describe MyMongoid::Changable do
-  before(:each) do
-    MyMongoid.configure do |config|
-      config.host = "localhost:27017"
-      config.database = "my_mongoid"
-    end
-  end
-  after(:each) do
-    MyMongoid.configure do |config|
-      config.host = nil
-      config.database = nil
-    end
-  end
+  prepare_database
 
   let(:model) {
     Class.new do
