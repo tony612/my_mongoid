@@ -93,7 +93,7 @@ describe MyMongoid::Field do
 
   describe 'included' do
     it 'define id field' do
-      expect(model.fields).to include('id')
+      expect(model.fields.keys).to include('_id')
     end
 
     it 'alias _id as id as default' do
@@ -106,7 +106,7 @@ describe MyMongoid::Field do
   describe '.alias_methods' do
     it 'maintains aliased methods' do
       expect(model.alias_methods).to be_a(Hash)
-      expect(model.alias_methods).to include('n' => 'number', '_id' => 'id')
+      expect(model.alias_methods).to include('n' => 'number', 'id' => '_id')
     end
   end
 
@@ -121,6 +121,15 @@ describe MyMongoid::Field do
     it 'maintains field types' do
       expect(model.field_types).to be_a(Hash)
       expect(model.field_types).to include('number' => Integer)
+    end
+  end
+
+  describe '.check_field_type' do
+    it "check field's type" do
+      expect(model.check_field_type(:number, 1)).to eql(true)
+      expect {
+        model.check_field_type(:number, "foo")
+      }.to raise_error(MyMongoid::AttributeTypeError)
     end
   end
 end

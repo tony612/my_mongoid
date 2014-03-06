@@ -37,10 +37,15 @@ describe MyMongoid::Sessions do
   end
 
   describe 'collection' do
-    class Event
-      include MyMongoid::Document
+    before(:all) do
+      class Event
+        include MyMongoid::Document
 
-      field :created_at
+        field :created_at
+      end
+    end
+    after(:all) do
+      Object.send(:remove_const, :Event)
     end
 
     before(:each) do

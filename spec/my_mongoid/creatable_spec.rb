@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 describe MyMongoid::Creatable do
   before(:each) do
     MyMongoid.configure do |config|
@@ -5,13 +7,23 @@ describe MyMongoid::Creatable do
       config.database = "my_mongoid"
     end
   end
+  before(:all) do
+    class Event
+      include MyMongoid::Document
+
+      field :created_at
+    end
+  end
+  after(:all) do
+    Object.send(:remove_const, :Event)
+  end
   describe '#save' do
     context 'successful insert' do
       it 'inserts a new record into the db' do
         col = Event.collection
         event = Event.new({created_at: 'bar', _id: "abc"})
         expect(Event).to receive(:collection).and_return(col)
-        expect(col).to receive(:insert).with({"created_at" => 'bar', "id" => "abc"})
+        expect(col).to receive(:insert).with({"created_at" => 'bar', "_id" => "abc"})
         event.save
       end
       it 'returns true' do

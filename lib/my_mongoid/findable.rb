@@ -7,7 +7,7 @@ module MyMongoid
         attrs = if opts.is_a?(Hash)
                   collection.find(opts).first
                 else
-                  collection.find({"id" => opts}).first
+                  collection.find({"_id" => opts}).first
                 end
         raise MyMongoid::RecordNotFoundError unless attrs && attrs.is_a?(Hash)
         instantiate(attrs)

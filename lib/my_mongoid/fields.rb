@@ -4,7 +4,7 @@ module MyMongoid
 
     included do
       # define the default alias methods
-      field :id, :as => :_id
+      field :_id, :as => :id
     end
 
     module ClassMethods
@@ -14,7 +14,7 @@ module MyMongoid
       end
 
       def fields
-        @fields ||= {"_id" => MyMongoid::Field.new("_id", {})}
+        @fields ||= {}
       end
 
       def alias_methods
@@ -22,15 +22,18 @@ module MyMongoid
       end
 
       def default_attributes
-        @default_attributes ||= {"_id" => SecureRandom.hex}
+        @default_attributes ||= {}
       end
 
       def field_types
         @field_types ||= {}
       end
 
-      def check_field_type(value, type)
-        raise MyMongoid::AttributeTypeError if type && !value.is_a?(type)
+      def check_field_type(name, value)
+        name = name.to_s
+        matching_type = field_types[name]
+        raise MyMongoid::AttributeTypeError if matching_type && !value.is_a?(matching_type)
+        true
       end
 
       protected
@@ -56,9 +59,8 @@ module MyMongoid
 
       def create_setter(name)
         define_method("#{name}=".to_sym) do |value|
-          matching_type = self.class.field_types[name]
-          self.class.check_field_type(value, matching_type)
-          attributes[name] = value
+          changed_attributes[name] = [attributes[name], value]
+          write_attribute(name, value)
         end
       end
 

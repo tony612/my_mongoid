@@ -24,7 +24,7 @@ describe MyMongoid::Attributes do
   end
 
   it "can read the attributes of model" do
-    expect(event.attributes).to eq({"id" => "123", "number" => 11})
+    expect(event.attributes).to eq({"_id" => "123", "number" => 11})
   end
 
   describe '#read_attribute' do

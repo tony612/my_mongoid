@@ -36,7 +36,7 @@ module MyMongoid
 
     def initialize(attrs={})
       raise ArgumentError unless attrs.is_a?(Hash)
-      process_attributes self.class.default_attributes.merge(attrs)
+      process_attributes attrs_with_defaults({"_id" => SecureRandom.hex(10)}.merge(attrs))
       yield self if block_given?
       @is_new_record = true
     end

@@ -26,7 +26,7 @@ describe MyMongoid::Findable do
     end
     it 'can find a record by issuing query' do
       o = model.create
-      result = model.find({"id" => o.id})
+      result = model.find({"_id" => o.id})
       expect(result).to be_a(model)
       expect(result.id).to eql(o.id)
     end
