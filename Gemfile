@@ -11,7 +11,6 @@ group :test do
   gem "guard-rspec"
   gem 'simplecov', :require => false
   gem 'coveralls', :require => false
-  gem 'pry'
-  gem 'pry-debugger'
+  gem 'pry', require: true
+  gem 'pry-debugger', require: true
 end
-
