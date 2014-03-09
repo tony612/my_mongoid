@@ -11,6 +11,9 @@ describe MyMongoid::Changable do
       field :last_name
     end
   }
+  after(:all) do
+    model.collection.drop
+  end
 
   describe '#changed_attributes' do
     it "should be an empty hash initially" do

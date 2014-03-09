@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe MyMongoid::Deletable do
+  prepare_database
   let(:model) {
     Class.new do
       include MyMongoid::Document
@@ -8,7 +9,9 @@ describe MyMongoid::Deletable do
       field :created_at
     end
   }
-  prepare_database
+  after(:all) do
+    model.collection.drop
+  end
   describe '#delete' do
     it 'deletes a record from db' do
       person = model.create(created_at: "foo")

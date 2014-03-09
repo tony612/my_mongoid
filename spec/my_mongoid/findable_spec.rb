@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe MyMongoid::Findable do
+  prepare_database
   let(:model) {
     Class.new do
       include MyMongoid::Document
@@ -8,12 +9,14 @@ describe MyMongoid::Findable do
       field :public
     end
   }
+  after(:all) do
+    model.collection.drop
+  end
   it 'is a module' do
     expect {
       MyMongoid::Findable.new
     }.to raise_error(NoMethodError)
   end
-  prepare_database
   describe '.find' do
     it 'can find a record by issuing query' do
       o = model.create

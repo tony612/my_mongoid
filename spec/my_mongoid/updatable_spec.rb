@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe MyMongoid::Updatable do
+  prepare_database
   let(:model) {
     Class.new do
       include MyMongoid::Document
@@ -8,7 +9,9 @@ describe MyMongoid::Updatable do
       field :created_at
     end
   }
-  prepare_database
+  after(:all) do
+    model.collection.drop
+  end
   describe '#atomic_updates' do
     let(:obj) {
       model.new(created_at: "foo")

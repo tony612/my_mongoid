@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe MyMongoid::Creatable do
+  prepare_database
   before(:all) do
     class Event
       include MyMongoid::Document
@@ -9,9 +10,9 @@ describe MyMongoid::Creatable do
     end
   end
   after(:all) do
+    Event.collection.drop
     Object.send(:remove_const, :Event)
   end
-  prepare_database
   describe '#save' do
     context 'when not persisted' do
       it 'update the db' do
