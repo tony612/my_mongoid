@@ -15,9 +15,15 @@ module MyMongoid
 
     def save
       if new_record?
-        !insert.try(:new_record?)
+        run_callbacks :create do
+          run_callbacks :save do
+            !insert.try(:new_record?)
+          end
+        end
       else
-        update_document
+        run_callbacks :save do
+          update_document
+        end
       end
     end
 
