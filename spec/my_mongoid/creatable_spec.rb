@@ -29,10 +29,10 @@ describe MyMongoid::Creatable do
       end
       it 'inserts a new record into the db' do
         col = Event.collection
-        count = col.find.count
         event = Event.new({created_at: 'bar'})
-        event.save
-        expect(col.find.count).to eql(count + 1)
+        expect {
+          event.save
+        }.to change{col.find.count}.by(1)
       end
       it 'returns true' do
         event = Event.new({created_at: 'bar'})
