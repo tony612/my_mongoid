@@ -59,7 +59,7 @@ module MyMongoid
 
       def create_setter(name)
         define_method("#{name}=".to_sym) do |value|
-          changed_attributes[name] = [attributes[name], value]
+          changed_attributes[name] = [attributes[name], value] unless value == attributes[name]
           write_attribute(name, value)
         end
       end

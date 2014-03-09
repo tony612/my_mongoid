@@ -34,7 +34,7 @@ describe MyMongoid::Changable do
     it "should not make a field dirty if the assigned value is equaled to the old value" do
       person = model.new(first_name: "A")
       person.first_name = "A"
-      expect(person.changed_attributes[:first_name]).to be_nil
+      expect(person.changed_attributes['first_name']).to be_nil
     end
   end
 

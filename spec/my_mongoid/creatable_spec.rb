@@ -13,17 +13,30 @@ describe MyMongoid::Creatable do
   end
   prepare_database
   describe '#save' do
-    context 'successful insert' do
+    context 'when not persisted' do
+      it 'update the db' do
+        event = Event.create({created_at: 'bar'})
+        expect(event).to receive(:update_document)
+        event.created_at = "abc"
+        event.save
+      end
+    end
+    context 'when persisted' do
+      it 'receive :insert' do
+        event = Event.new({created_at: 'bar'})
+        expect(event).to receive(:insert)
+        event.save
+      end
       it 'inserts a new record into the db' do
         col = Event.collection
-        event = Event.new({created_at: 'bar', _id: "abc"})
-        expect(Event).to receive(:collection).and_return(col)
-        expect(col).to receive(:insert).with({"created_at" => 'bar', "_id" => "abc"})
+        count = col.find.count
+        event = Event.new({created_at: 'bar'})
         event.save
+        expect(col.find.count).to eql(count + 1)
       end
       it 'returns true' do
         event = Event.new({created_at: 'bar'})
-        expect(event.save).to include({"n"=>0, "err"=>nil, "ok"=>1.0})
+        expect(event.save).to be true
       end
       it 'makes Model#new_record return false' do
         event = Event.new({created_at: 'bar'})

@@ -4,6 +4,10 @@ module MyMongoid
       @changed_attributes ||= {}
     end
 
+    def changed
+      changed_attributes.keys
+    end
+
     def clear_changed
       @changed_attributes = {}
     end

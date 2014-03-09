@@ -5,6 +5,7 @@ require 'my_mongoid/sessions'
 require 'my_mongoid/creatable'
 require 'my_mongoid/findable'
 require 'my_mongoid/changable'
+require 'my_mongoid/updatable'
 
 module MyMongoid
   module Document
@@ -16,6 +17,7 @@ module MyMongoid
     include MyMongoid::Creatable
     include MyMongoid::Findable
     include MyMongoid::Changable
+    include MyMongoid::Updatable
 
     attr_accessor :is_new_record
 

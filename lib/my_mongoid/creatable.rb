@@ -14,9 +14,20 @@ module MyMongoid
     end
 
     def save
+      if new_record?
+        !insert.try(:new_record?)
+      else
+        update_document
+      end
+    end
+
+    protected
+
+    def insert
       @is_new_record = false
-      self.class.collection.insert(to_document)
       clear_changed
+      self.class.collection.insert(to_document)
+      self
     end
   end
 end
