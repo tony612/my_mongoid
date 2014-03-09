@@ -2,6 +2,10 @@ module MyMongoid
   module Findable
     extend ActiveSupport::Concern
 
+    def reload
+      self.attributes = self.class.collection.find({"_id" => id}).first
+    end
+
     module ClassMethods
       def find(opts=nil)
         attrs = if opts.is_a?(Hash)

@@ -4,6 +4,8 @@ describe MyMongoid::Findable do
   let(:model) {
     Class.new do
       include MyMongoid::Document
+
+      field :public
     end
   }
   it 'is a module' do
@@ -11,8 +13,8 @@ describe MyMongoid::Findable do
       MyMongoid::Findable.new
     }.to raise_error(NoMethodError)
   end
+  prepare_database
   describe '.find' do
-    prepare_database
     it 'can find a record by issuing query' do
       o = model.create
       result = model.find({"_id" => o.id})
@@ -30,6 +32,15 @@ describe MyMongoid::Findable do
       expect {
         model.find("abc")
       }.to raise_error(MyMongoid::RecordNotFoundError)
+    end
+  end
+  describe '#reload' do
+    it 'reloads data from database' do
+      o = model.create(public: true)
+      expect(o.public).to be true
+      o.public = false
+      o.reload
+      expect(o.public).to be true
     end
   end
 end
