@@ -6,6 +6,7 @@ require 'my_mongoid/creatable'
 require 'my_mongoid/findable'
 require 'my_mongoid/changable'
 require 'my_mongoid/updatable'
+require 'my_mongoid/deletable'
 
 module MyMongoid
   module Document
@@ -18,6 +19,7 @@ module MyMongoid
     include MyMongoid::Findable
     include MyMongoid::Changable
     include MyMongoid::Updatable
+    include MyMongoid::Deletable
 
     attr_accessor :is_new_record
 
